@@ -13,6 +13,6 @@ spec:
   http:
     - route:
         - destination:
-            host: service-a-service
+            host: service-a
             port:
               number: 80
