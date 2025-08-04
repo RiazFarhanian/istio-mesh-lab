@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: service-b-v2-virtual-service
+  namespace: istio-meshlab
+  labels:
+    app: service-b-v2
+spec:
+  hosts:
+    - "service-b-v2.local"
+  gateways:
+    - service-b-v2-gateway
+  http:
+    - route:
+        - destination:
+            host: service-b-v2-service
+            port:
+              number: 80

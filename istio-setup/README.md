@@ -10,7 +10,6 @@ This directory provides everything needed to bootstrap your Istio environment fo
 |-------------------------|-----------------------------------------------------------------------------|
 | `install-istioctl.sh`   | Installs the `istioctl` CLI tool into the user's home directory.            |
 | `install-istio-addons.sh` | Deploys observability add-ons like Kiali, Prometheus, Grafana, and Jaeger. |
-| `namespace.yaml`        | Creates the `istio-meshlab` namespace and enables sidecar injection.        |
 
 ---
 
@@ -39,14 +38,7 @@ After installation, verify with:
 istioctl version
 ```
 
-### 2. Create the Namespace
-Before deploying services, you need a dedicated namespace with Istio sidecar injection enabled.
-Apply the namespace config:
-```bash
-kubectl apply -f namespace.yaml
-```
-This will create a namespace called istio-meshlab with automatic Envoy sidecar injection.
-### 3. Install Istio Add-ons (Kiali, Grafana, etc.)
+### 2. Install Istio Add-ons (Kiali, Grafana, etc.)
    After installing istioctl, deploy Istio's observability tools:
 ```bash
 ./install-istio-addons.sh
@@ -66,4 +58,11 @@ istioctl dashboard prometheus
 istioctl dashboard jaeger
 ```
 
+### 3. Put Docker images into Minikube's Docker daemon
+If you build the Docker image locally but didn’t push it to a container registry (like Docker Hub, GitHub Container Registry, or a private registry), Kubernetes won’t be able to find it unless you’re using a local cluster like Minikube or kind.
 
+For minikube(This command should use before generating a docker image each time):
+
+```bash
+eval $(minikube docker-env)
+```

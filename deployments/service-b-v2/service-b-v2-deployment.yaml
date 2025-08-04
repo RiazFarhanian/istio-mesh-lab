@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-b-v2-deployment
+  namespace: istio-meshlab
+  labels:
+    app: service-b-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-b-v2
+  template:
+    metadata:
+      labels:
+        app: service-b-v2
+    spec:
+      containers:
+        - name: service-b-v2
+          image: quarkus-service-b-v2:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080

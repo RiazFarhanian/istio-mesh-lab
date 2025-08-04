@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: service-b-v2-gateway
+  namespace: istio-meshlab
+  labels:
+    app: service-b-v2
+spec:
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "service-b-v2.local"
