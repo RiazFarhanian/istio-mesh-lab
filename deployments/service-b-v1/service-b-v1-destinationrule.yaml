@@ -1,0 +1,10 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: service-b-v1-mtls
+  namespace: istio-meshlab
+spec:
+  host: service-b-v1
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
