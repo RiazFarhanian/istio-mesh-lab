@@ -22,10 +22,12 @@ sudo ln -sf "$ISTIO_HOME/bin/istioctl" /usr/local/bin/istioctl
 if [[ "$SHELL" == *"zsh" ]]; then
   echo "export PATH=\"$ISTIO_HOME/bin:\$PATH\"" >> ~/.zshrc
   echo "export ISTIO_HOME=\"$ISTIO_HOME\"" >> ~/.zshrc
+  source ~/.zshrc
   echo "🔁 Added istioctl to ~/.zshrc"
 elif [[ "$SHELL" == *"bash" ]]; then
   echo "export PATH=\"$ISTIO_HOME/bin:\$PATH\"" >> ~/.bashrc
   echo "export ISTIO_HOME=\"$ISTIO_HOME\"" >> ~/.bashrc
+  source ~/.bashrc
   echo "🔁 Added istioctl to ~/.bashrc"
 else
   echo "⚠️ Unknown shell, please add this to your shell config manually:"

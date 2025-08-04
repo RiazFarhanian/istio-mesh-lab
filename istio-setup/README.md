@@ -16,12 +16,17 @@ This directory provides everything needed to bootstrap your Istio environment fo
 
 ## 🛠️ Setup Instructions
 
-### 1. Install Istio CLI (istioctl)
+### 1. Make the Scripts Executable
+
+```bash
+chmod +x install-istioctl.sh install-istio-addons.sh
+```
+
+### 2. Install Istio CLI (istioctl)
 
 Use this script to download and install the `istioctl` command-line tool into your home directory and add it to your PATH:
 
 ```bash
-chmod +x install-istioctl.sh 
 ./install-istioctl.sh
 ```
 
@@ -44,7 +49,6 @@ This will create a namespace called istio-meshlab with automatic Envoy sidecar i
 ### 3. Install Istio Add-ons (Kiali, Grafana, etc.)
    After installing istioctl, deploy Istio's observability tools:
 ```bash
-chmod +x install-istio-addons.sh 
 ./install-istio-addons.sh
 ```
 This script fetches the official Istio addons.yaml from the GitHub repo and applies it to the cluster. It installs:
