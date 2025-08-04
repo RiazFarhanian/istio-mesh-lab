@@ -8,8 +8,11 @@ metadata:
 spec:
   servers:
     - port:
-        number: 80
-        name: http
-        protocol: HTTP
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: service-b-v2-tls
       hosts:
         - "service-b-v2.local"

@@ -1,96 +1,99 @@
 # 📦 Istio MeshLab: Deployments Guide
 
-This folder contains all the Kubernetes deployment configurations for the Istio MeshLab project.
+The deployments consist of three services (`service-a`, `service-b-v1`, and `service-b-v2`), each with:
+
+- A Kubernetes Deployment
+- A Kubernetes Service
+- An Istio VirtualService
+- An Istio Gateway
+- A TLS certificate via cert-manager
 
 ---
 
-## 📁 Folder Structure
+## 🧱 Folder Structure
 
 ```
 deployments/
-│
-├── namespace.yaml                  # Namespace configuration
-│
+├── namespace.yaml
+├── cluster-issuer.yaml
 ├── service-a/
 │   ├── service-a-deployment.yaml
 │   ├── service-a-service.yaml
 │   ├── service-a-virtualservice.yaml
-│   └── service-a-gateway.yaml
-│
+│   ├── service-a-gateway.yaml
+│   ├── service-a-certificate.yaml
 ├── service-b-v1/
 │   ├── service-b-v1-deployment.yaml
 │   ├── service-b-v1-service.yaml
 │   ├── service-b-v1-virtualservice.yaml
-│   └── service-b-v1-gateway.yaml
-│
-└── service-b-v2/
+│   ├── service-b-v1-gateway.yaml
+│   ├── service-b-v1-certificate.yaml
+├── service-b-v2/
     ├── service-b-v2-deployment.yaml
     ├── service-b-v2-service.yaml
     ├── service-b-v2-virtualservice.yaml
-    └── service-b-v2-gateway.yaml
+    ├── service-b-v2-gateway.yaml
+    ├── service-b-v2-certificate.yaml
 ```
 
 ---
 
-## 🚀 Deployment Steps
+## 📌 Prerequisites
 
-> 🧠 **Before You Begin:** Make sure you have Istio and your Kubernetes cluster (e.g., Minikube) up and running.
+Make sure you have:
 
-### ✅ Step 1: Create the Namespace
+- Minikube running
+- Istio installed and running
+- cert-manager installed using the following commands:
 
-All services are deployed into the `istio-meshlab` namespace.
+### Install cert-manager CRDs (via online URL)
 
 ```bash
-kubectl apply -f namespace.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.2/cert-manager.crds.yaml
+kubectl apply -f cluster-issuer.yaml
 ```
 
 ---
 
-### 🔁 Step 2: Deploy Each Service
+## ✅ Setup Steps
 
-Repeat these steps for each service folder: `service-a`, `service-b-v1`, and `service-b-v2`.
-
-> 💡 Replace `service-a` with the respective service name when applying the resources.
-
-#### 2.1 Deploy Application
+### 1. Set Docker to use Minikube environment
 
 ```bash
-kubectl apply -f service-a/service-a-deployment.yaml
+eval $(minikube docker-env)
 ```
 
-This creates the deployment for the application (Pods).
-
-#### 2.2 Expose the Service
-
-```bash
-kubectl apply -f service-a/service-a-service.yaml
-```
-
-This exposes the Pods internally via a ClusterIP service.
-
-#### 2.3 Apply Istio Virtual Service
-
-```bash
-kubectl apply -f service-a/service-a-virtualservice.yaml
-```
-
-This configures the routing rules for the service within the mesh.
-
-#### 2.4 Apply Istio Gateway
-
-```bash
-kubectl apply -f service-a/service-a-gateway.yaml
-```
-
-This exposes the service externally through Istio's ingress gateway.
+Note: This ensures Docker builds images inside the Minikube VM.
+Warning: 
 
 ---
 
-## 🌐 Accessing the Services
+### 2. Create the namespace
 
-After deploying all components, you can access the services via browser or `curl`.
+```bash
+kubectl apply -f deployments/namespace.yaml
+kubectl config set-context --current --namespace=istio-meshlab
+```
 
-### 1. Get Istio Ingress Gateway IP
+---
+
+### 3. Deploy the services
+
+For each service (e.g., `service-a`, `service-b-v1`, etc.), apply the YAML files in order:
+
+```bash
+kubectl apply -f deployments/service-a/service-a-deployment.yaml
+kubectl apply -f deployments/service-a/service-a-service.yaml
+kubectl apply -f deployments/service-a/service-a-certificate.yaml
+kubectl apply -f deployments/service-a/service-a-gateway.yaml
+kubectl apply -f deployments/service-a/service-a-virtualservice.yaml
+```
+
+Repeat similarly for `service-b-v1` and `service-b-v2`.
+
+---
+
+### 4. Get Istio Ingress Gateway IP
 
 ```bash
 kubectl get svc istio-ingressgateway -n istio-system
@@ -101,7 +104,7 @@ kubectl get svc istio-ingressgateway -n istio-system
 minikube tunnel
 ```
 
-### 2. Update `/etc/hosts`
+### 5. Update `/etc/hosts`
 
 Map your service hostname to the ingress IP:
 
@@ -111,12 +114,34 @@ Map your service hostname to the ingress IP:
 127.0.0.1  service-b-v2.local
 ```
 
-> Update with actual IP if different.
+> Update with actual External IP of istio-ingressgateway if different.
 
-### 3. Test the Endpoint
+```
+EXTERNAL-IP  service-a.local
+EXTERNAL-IP  service-b-v1.local
+EXTERNAL-IP  service-b-v2.local
+```
+
+## 🔐 TLS Certificates
+
+Each service uses a self-signed certificate issued via cert-manager.
+
+- Issuer: `ClusterIssuer` defined earlier
+- Credential names used in Gateway:
+    - `service-a-tls`
+    - `service-b-v1-tls`
+    - `service-b-v2-tls`
+
+Make sure certificate names match the `credentialName` in your `Gateway` definitions.
+
+---
+
+## 🧪 Test Your Services
+
+Once deployed, you can test with:
 
 ```bash
-curl http://service-a.local/hello
+curl https://service-a.local/hello
 ```
 
 Expected response:
@@ -127,12 +152,15 @@ Greeting from Service A
 
 ---
 
-## 🛠 Notes
+## 📎 Notes
 
 - Each service is isolated in its own subfolder with self-contained YAML files.
 - Gateway and VirtualService files allow Istio to manage external access and traffic routing.
 - All services are assumed to respond under the `/hello` endpoint for demo purposes.
+- Certificates will automatically create `Secrets` in the namespace
+- Gateways must match `credentialName` with the secret name from the Certificate
+- VirtualService must route to the service name as defined in Kubernetes
 
 ---
 
-Happy Mesh-ing! 🕸️
+Happy Service Meshing! 🎉
