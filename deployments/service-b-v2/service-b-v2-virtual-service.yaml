@@ -13,6 +13,6 @@ spec:
   http:
     - route:
         - destination:
-            host: service-b-v2-service
+            host: service-b-v2
             port:
               number: 80
