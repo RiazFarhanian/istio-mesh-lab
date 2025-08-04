@@ -12,11 +12,12 @@ Each exposes `/hello` returning a unique greeting message.
 
 ## Feature Branches
 
-| Branch Name           | Description                         |
-|-----------------------|-------------------------------------|
-| `master`              | Base Quarkus projects (no Istio)    |
-| `feature/mtls`        | Mutual TLS enforcement              |
-| `feature/traffic-splitting` | Canary deployment & traffic control |
-| `feature/jwt-auth`    | Securing APIs with JWT              |
-| `feature/resilience`  | Retry, timeout, failover strategies |
-| `final`               | Full integration of all features    |
+| Branch Name                 | Description                                                             |
+|-----------------------------|-------------------------------------------------------------------------|
+| `master`                    | Base Quarkus projects (no Istio)                                        |
+| `feature/istio-setup`       | Istio setup and deploy all quarkus <br/> projects in istio environment. |
+| `feature/mtls`              | Mutual TLS enforcement                                                  |
+| `feature/traffic-splitting` | Canary deployment & traffic control                                     |
+| `feature/jwt-auth`          | Securing APIs with JWT                                                  |
+| `feature/resilience`        | Retry, timeout, failover strategies                                     |
+| `final`                     | Full integration of all features                                        |
