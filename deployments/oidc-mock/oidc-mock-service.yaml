@@ -1,0 +1,12 @@
+# oidc-mock-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: oidc-mock
+  namespace: istio-meshlab
+spec:
+  selector:
+    app: oidc-mock
+  ports:
+    - port: 80
+      targetPort: 80

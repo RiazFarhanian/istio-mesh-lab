@@ -1,0 +1,12 @@
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: service-a-jwt
+  namespace: istio-meshlab
+spec:
+  selector:
+    matchLabels:
+      app: service-a
+  jwtRules:
+    - issuer: "http://oidc-mock.local"
+      jwksUri: "http://oidc-mock/.well-known/jwks.json"

@@ -1,0 +1,26 @@
+# oidc-mock-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oidc-mock
+  namespace: istio-meshlab
+  labels:
+    app: oidc-mock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oidc-mock
+  template:
+    metadata:
+      labels:
+        app: oidc-mock
+    spec:
+      containers:
+        - name: oidc-server-mock
+          image: nayyaracropsey/jwtmock:latest
+          env:
+            - name: JWT_MOCK_KEY_LENGTH
+              value: "2048"
+          ports:
+            - containerPort: 80

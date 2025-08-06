@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: oidc-mock-vs
+  namespace: istio-meshlab
+spec:
+  hosts:
+    - "oidc-mock.local"
+  gateways:
+    - oidc-mock-gateway
+  http:
+    - route:
+        - destination:
+            host: oidc-mock
+            port:
+              number: 80
