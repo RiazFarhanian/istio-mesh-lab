@@ -1,0 +1,11 @@
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: oidc-mock-plaintext
+  namespace: istio-meshlab
+spec:
+  selector:
+    matchLabels:
+      app: oidc-mock
+  mtls:
+    mode: PERMISSIVE #Accept HTTP and HTTPS

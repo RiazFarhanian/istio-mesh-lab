@@ -9,4 +9,4 @@ spec:
       app: service-a
   jwtRules:
     - issuer: "http://oidc-mock.local"
-      jwksUri: "http://oidc-mock/.well-known/jwks.json"
+      jwksUri: "http://oidc-mock.istio-meshlab.svc.cluster.local/.well-known/jwks.json"
