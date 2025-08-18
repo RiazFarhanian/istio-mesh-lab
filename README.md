@@ -4,11 +4,10 @@ Each feature is isolated into its own Git branch to support blog-based learning.
 
 ## Available Services
 
-- `service-a`
-- `service-b-v1`
-- `service-b-v2`
+### `istio-service`
 
-Each exposes `/hello` returning a unique greeting message.
+- This service exposes `/api/greeting/hello` returning a unique greeting message.
+- Another endpoint is `/api/client/hello` returning a greeting from an api call.
 
 ## Feature Branches
 
