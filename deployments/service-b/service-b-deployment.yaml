@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: service-a-deployment
+  name: service-b-deployment
   namespace: istio-meshlab
   labels:
-    app: service-a
+    app: service-b
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: service-a
+      app: service-b
   template:
     metadata:
       labels:
-        app: service-a
+        app: service-b
     spec:
       containers:
-        - name: service-a
+        - name: service-b
           image: quarkus-istio-service:1.0.0
           imagePullPolicy: Never
           ports:
@@ -25,4 +25,4 @@ spec:
             - name: QUARKUS_REST_CLIENT_EXTERNAL_API_URL
               value: "http://service-b"
             - name: MESHLAB_SERVICE_NAME
-              value: "service-a"
+              value: "service-b"

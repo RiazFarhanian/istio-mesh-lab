@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: service-b-gateway
+  namespace: istio-meshlab
+  labels:
+    app: service-b
+spec:
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: service-b-tls
+      hosts:
+        - "service-b.local"
