@@ -12,7 +12,7 @@ This guide walks you through:
 - Exposing oidc-mock using Kubernetes Service, VirtualService, and Gateway resources.
 - Configuring Istio’s PeerAuthentication to allow plaintext HTTP for oidc-mock.
 - Configuring Service A to enforce JWT authentication using Istio’s `RequestAuthentication` and `AuthorizationPolicy`.
-- End-to-end test: Generate a JWT token with oidc-mock, and call Service A’s `/hello` endpoint with the token.
+- End-to-end test: Generate a JWT token with oidc-mock, and call Service A’s `/api/greeting/hello` endpoint with the token.
 
 ---
 
