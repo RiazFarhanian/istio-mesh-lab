@@ -1,15 +1,15 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: service-b-v1-tls
+  name: service-b-tls
   namespace: istio-system
 spec:
-  secretName: service-b-v1-tls
+  secretName: service-b-tls
   issuerRef:
     name: self-signed-issuer
     kind: ClusterIssuer
-  commonName: service-b-v1.local
+  commonName: service-b.local
   dnsNames:
-    - service-b-v1.local
+    - service-b.local
   duration: 8760h # 1 year
   renewBefore: 360h

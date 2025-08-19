@@ -9,7 +9,7 @@ import jakarta.ws.rs.Path;
 
 
 @Path("/api/greeting/hello")
-@RegisterRestClient
+@RegisterRestClient(configKey = "external-api")
 public interface ClientService {
 
     @GET

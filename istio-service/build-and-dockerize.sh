@@ -2,7 +2,7 @@
 
 set -e
 
-SERVICE_NAME="service-b-v1"
+SERVICE_NAME="istio-service"
 IMAGE_TAG="quarkus-${SERVICE_NAME}:1.0.0"
 PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
