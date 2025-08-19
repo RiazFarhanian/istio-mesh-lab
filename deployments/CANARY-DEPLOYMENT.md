@@ -6,7 +6,7 @@ This document explains how canary deployment is configured for `service-b` in th
 
 ## Overview
 
-- `service-b` has two versions deployed: **v1** and **v2**
+- `service-b` has two versions deployed: **v1** and **v2** using istio-service image with different `MESHLAB_SERVICE_NAME` environment variable.
 - Both versions are exposed via a single Kubernetes Service (`service-b-service.yaml`)
 - Istio manages traffic splitting using `VirtualService` and `DestinationRule`
 - This setup enables you to route a percentage of traffic to the new version (v2) while the old version (v1) continues to serve most requests—this is called **canary deployment**
@@ -88,7 +88,7 @@ Call the service endpoint (internally or externally, depending on your setup).
 Example:
 
 ```bash
-curl http://service-b.istio-meshlab.svc.cluster.local/hello
+curl http://service-b.local/api/greeting/hello
 ```
 You should see responses from both v1 and v2 according to the weights.
 
@@ -99,6 +99,5 @@ You should see responses from both v1 and v2 according to the weights.
 ### Troubleshooting Tips
 - Ensure all Pods have the correct labels (app: service-b, version: v1 or v2)
 - If you see “no healthy upstream/stream” errors, double-check your deployment, service selectors, and DestinationRule labels.
-- Confirm that both versions’ Pods are ready and passing liveness/readiness probes.
 
 Happy canary deploying!
