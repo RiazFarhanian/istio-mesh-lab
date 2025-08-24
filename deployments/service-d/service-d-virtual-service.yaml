@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: service-d-virtual-service
+  namespace: istio-meshlab
+  labels:
+    app: service-d
+spec:
+  hosts:
+    - "service-d.local"
+  gateways:
+    - service-d-gateway
+  http:
+    - route:
+        - destination:
+            host: service-d
+            port:
+              number: 80

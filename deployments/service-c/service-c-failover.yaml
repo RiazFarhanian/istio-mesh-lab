@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: service-c-failover
+  namespace: istio-meshlab
+  labels:
+    app: service-c
+spec:
+  hosts:
+    - service-c
+  http:
+    - route:
+        - destination:
+            host: service-d
+            weight: 100

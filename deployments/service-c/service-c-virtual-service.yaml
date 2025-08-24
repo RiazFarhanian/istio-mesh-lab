@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: service-c-virtual-service
+  namespace: istio-meshlab
+  labels:
+    app: service-c
+spec:
+  hosts:
+    - "service-c.local"
+  gateways:
+    - service-c-gateway
+  http:
+    - route:
+        - destination:
+            host: service-c
+            port:
+              number: 80

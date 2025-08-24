@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: service-c-destination-rule
+  namespace: istio-meshlab
+  labels:
+    app: service-c
+spec:
+  host: service-c
+  trafficPolicy:
+    # Connection pool limits (aggressive to make effects visible in a lab)
+    connectionPool:
+      tcp:
+        maxConnections: 1
+      http:
+        http1MaxPendingRequests: 1
+        maxRequestsPerConnection: 1
+    # Outlier detection (eject unhealthy endpoints quickly)
+    outlierDetection:
+      consecutive5xxErrors: 1
+      interval: 5s
+      baseEjectionTime: 30s
+      maxEjectionPercent: 100

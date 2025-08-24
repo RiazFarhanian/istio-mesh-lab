@@ -1,0 +1,32 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: service-c-internal
+  namespace: istio-meshlab
+  labels:
+    app: service-c
+spec:
+  hosts:
+    - service-c            # cluster-internal host
+  # no gateways -> this VS applies only to in-mesh traffic
+  http:
+    - fault:
+        # Inject a fixed delay for half of the requests (tweak as you like)
+        delay:
+          fixedDelay: 3s
+          percentage:
+            value: 50
+        # Also inject some 500s to simulate hard failures
+        abort:
+          httpStatus: 500
+          percentage:
+            value: 20
+      route:
+        - destination:
+            host: service-c
+      # Client-side behavior from the caller's sidecar (Service A)
+      timeout: 5s
+      retries:
+        attempts: 3
+        perTryTimeout: 2s
+        retryOn: gateway-error,connect-failure,refused-stream,5xx

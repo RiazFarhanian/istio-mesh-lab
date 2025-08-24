@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-d
+  namespace: istio-meshlab
+  labels:
+    app: service-d
+spec:
+  selector:
+    app: service-d
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080

@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: service-d-tls
+  namespace: istio-system
+spec:
+  secretName: service-d-tls
+  issuerRef:
+    name: self-signed-issuer
+    kind: ClusterIssuer
+  commonName: service-d.local
+  dnsNames:
+    - service-d.local
+  duration: 8760h # 1 year
+  renewBefore: 360h

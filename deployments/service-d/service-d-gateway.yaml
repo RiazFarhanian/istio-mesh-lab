@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: service-d-gateway
+  namespace: istio-meshlab
+  labels:
+    app: service-d
+spec:
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: service-d-tls
+      hosts:
+        - "service-d.local"
